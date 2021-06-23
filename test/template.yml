@@ -1,0 +1,60 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS SAM template 
+
+
+Parameters:
+  LayerNameAndVersion:
+    Type: String
+    Description: "Layer Name and Version in the format: name:version "
+    Default: nodejs-lifecycle-hook-extension:1
+  BucketName:
+    Type: String
+    Description: "Bucket to read file from"
+    Default: "airflow-us-west-2-private"
+  S3Key:
+    Type: String
+    Description: "S3Key"
+    Default: "requirements.txt"
+
+  
+Resources:
+
+  LambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.handler
+      Runtime: provided.al2
+      Timeout: 30
+      Tracing: Active
+      Environment:
+        Variables:
+          BucketName: !Ref BucketName
+          S3key: !Ref S3Key
+      Policies:
+        - S3ReadPolicy:
+            BucketName: !Ref BucketName
+      Layers:
+          - !Sub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:${LayerNameAndVersion}"
+    Metadata:
+      BuildMethod: makefile
+
+      # AutoPublishAlias: !Ref LambdaAlias
+      # ProvisionedConcurrencyConfig:
+      #   ProvisionedConcurrentExecutions: 3
+
+
+  LambdaFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${LambdaFunction}"
+      RetentionInDays: 7
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  LambdaFunctionArn:
+    Description: "Lambda Function ARN"
+    Value: !GetAtt LambdaFunction.Arn

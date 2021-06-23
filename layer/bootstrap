@@ -1,0 +1,5 @@
+#!/bin/sh
+cd $LAMBDA_TASK_ROOT
+# export PATH=/usr/local/bin:/usr/bin/:/bin:/opt/bin:/opt/node-v14.17.1-linux-x64/bin
+/opt//bin/node /opt/nodejs/node_modules/aws-lambda-ric/bin/index.js app.handler 
+# /opt/node-v14.17.1-linux-x64/bin/npx aws-lambda-ric app.handler

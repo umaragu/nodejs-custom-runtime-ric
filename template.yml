@@ -1,0 +1,23 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS SAM template for layers
+  
+Resources:
+  LambdaNodejsRIC:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: layer
+      CompatibleRuntimes:
+        - nodejs14.x
+        - nodejs12.x
+    Metadata:
+      BuildMethod: makefile
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  LambdaNodejsRICArn:
+    Description: "Layer ARN"
+    Value: !Ref LambdaNodejsRIC
+

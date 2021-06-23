@@ -1,0 +1,16 @@
+{
+    "name": "nodejs-custom-runtime-with-pc",
+    "version": "1.0.0",
+    "description": "custom runtime with lifecyclehook",
+    "main": "app.js",
+    "repository": "",
+    "author": "Ramadoss",
+    "license": "MIT-0",
+    "dependencies": {
+        "aws-sdk": "^2.931.0",
+        "webpack": "^5.39.1"
+    },
+    "devDependencies": {
+        "webpack-cli": "^4.7.2"
+    }
+}
