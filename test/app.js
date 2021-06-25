@@ -10,7 +10,7 @@
  * wakes up prior to invocation.
  */
 let s3File;
-exports.initGlobals = async () => {
+exports.initializeFunction = async () => {
   consol.log("******** enter initializeFunction hook ********");
   s3File = await getS3File();
   console.log("******** File Fetched    ********");
